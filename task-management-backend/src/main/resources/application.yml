@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: task-management-backend
+    datasource:
+      url: jdbc:h2:mem:taskmanagementdb;MODE=DB2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_LOWER=TRUE
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database-platform: org.hibernate.dialect.DB2Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.DB2Dialect
+
+  sql:
+    init:
+      mode: always
+      platform: h2
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
