@@ -26,7 +26,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<TaskResponse> findTasks(Long projectId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("creationDate").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("status").ascending().and(Sort.by("creationDate").descending()));
         Page<Task> tasks = (projectId == null) ?
                 taskRepository.findAll(pageable) :
                 taskRepository.findTasksByProjectId(projectId, pageable);
