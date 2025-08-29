@@ -1,0 +1,129 @@
+<div class="card mb-4 fade-in">
+  <div class="card-header bg-primary text-white">
+    <h5 class="card-title mb-0">
+      <i class="fas fa-plus-circle me-2"></i>
+      Nova Tarefa
+    </h5>
+  </div>
+  <div class="card-body">
+    <!-- Loading Projects State -->
+    <div *ngIf="isLoadingProjects()" class="text-center p-3">
+      <div class="loading-spinner"></div>
+      <span class="ms-2">Carregando projetos...</span>
+    </div>
+
+    <!-- Form -->
+    <form *ngIf="!isLoadingProjects()" [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="title" class="form-label fw-semibold">
+            Título <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            formControlName="title"
+            [class.is-invalid]="title?.invalid && title?.touched"
+            [class.is-valid]="title?.valid && title?.touched"
+            placeholder="Digite o título da tarefa"
+            maxlength="100">
+
+          <div class="invalid-feedback" *ngIf="title?.invalid && title?.touched">
+            <div *ngIf="title?.errors?.['required']">
+              <i class="fas fa-exclamation-circle me-1"></i>
+              Título é obrigatório
+            </div>
+            <div *ngIf="title?.errors?.['minlength']">
+              <i class="fas fa-exclamation-circle me-1"></i>
+              Título deve ter pelo menos 3 caracteres
+            </div>
+            <div *ngIf="title?.errors?.['maxlength']">
+              <i class="fas fa-exclamation-circle me-1"></i>
+              Título deve ter no máximo 100 caracteres
+            </div>
+          </div>
+
+          <div class="valid-feedback" *ngIf="title?.valid && title?.touched">
+            <i class="fas fa-check-circle me-1"></i>
+            Título válido
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="projectId" class="form-label fw-semibold">
+            Projeto <span class="text-danger">*</span>
+          </label>
+          <select
+            class="form-select"
+            id="projectId"
+            formControlName="projectId"
+            [class.is-invalid]="projectId?.invalid && projectId?.touched"
+            [class.is-valid]="projectId?.valid && projectId?.touched">
+            <option value="">Selecione um projeto</option>
+            <option *ngFor="let project of projects(); trackBy: trackByProjectId" [value]="project.projectId">
+              {{ project.name }}
+            </option>
+          </select>
+
+          <div class="invalid-feedback" *ngIf="projectId?.invalid && projectId?.touched">
+            <i class="fas fa-exclamation-circle me-1"></i>
+            Projeto é obrigatório
+          </div>
+
+          <div class="valid-feedback" *ngIf="projectId?.valid && projectId?.touched">
+            <i class="fas fa-check-circle me-1"></i>
+            Projeto selecionado
+          </div>
+
+          <!-- No projects warning -->
+          <div *ngIf="!hasProjects()" class="form-text text-warning">
+            <i class="fas fa-exclamation-triangle me-1"></i>
+            Nenhum projeto disponível. Cadastre um projeto primeiro.
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="description" class="form-label fw-semibold">Descrição</label>
+        <textarea
+          class="form-control"
+          id="description"
+          formControlName="description"
+          [class.is-valid]="description?.valid && description?.touched"
+          rows="3"
+          maxlength="500"
+          placeholder="Descrição detalhada da tarefa (opcional)">
+        </textarea>
+        <div class="form-text">
+          {{ description?.value?.length || 0 }}/500 caracteres
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="taskForm.reset()"
+          [disabled]="isSubmitting()">
+          <i class="fas fa-undo me-2"></i>
+          Limpar
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary px-4"
+          [disabled]="!canSubmit() || !hasProjects()">
+          <span *ngIf="!isSubmitting()">
+            <i class="fas fa-save me-2"></i>
+            Criar Tarefa
+          </span>
+          <span *ngIf="isSubmitting()">
+            <div class="loading-spinner me-2"></div>
+            Salvando...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

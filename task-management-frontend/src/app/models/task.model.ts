@@ -2,7 +2,7 @@ export interface Task {
   taskId?: number;
   title: string;
   description?: string;
-  projectId: number;
+  projectId?: number;
   status?: string;
   creationDate: string;
 }
@@ -10,11 +10,11 @@ export interface Task {
 export interface TaskRequest {
   title: string;
   description?: string;
-  projectId: number;
+  projectId?: number;
 }
 
 export interface TaskResponse {
-  id: number;
+  taskId: number;
   title: string;
   description?: string;
   projectId: number;

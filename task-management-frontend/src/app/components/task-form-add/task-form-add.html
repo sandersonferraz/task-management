@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h5 class="modal-title">Nova Tarefa</h5>
+  <button type="button" class="btn-close" (click)="cancel()"></button>
+</div>
+
+<div class="modal-body">
+  <form>
+    <div class="mb-3">
+      <label class="form-label">Título</label>
+      <input type="text" class="form-control" [(ngModel)]="model.title" name="title" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Descrição</label>
+      <textarea class="form-control" [(ngModel)]="model.description" name="description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Projeto</label>
+      <select class="form-select" [(ngModel)]="model.projectId" name="projectId">
+        <option [ngValue]="undefined">Selecione</option>
+        <option *ngFor="let project of projects" [ngValue]="project.projectId">
+          {{ project.name }}
+        </option>
+      </select>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Salvar</button>
+</div>

@@ -1,4 +1,4 @@
 export interface ProjectResponse {
-  id: number;
+  projectId: number;
   name: string;
 }
